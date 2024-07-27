@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<base href="https://www.elearning-platform.com/courses">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plateforme E-learning - Cours de la 6ème à la Terminale</title>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+    color: #333;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .search-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+  .search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .search-form input, .search-form select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex-grow: 1;
+    font-size: 16px;
+  }
+  .search-form button {
+    padding: 12px 24px;
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  .search-form button:hover {
+    background-color: #FFC107;
+  }
+  .results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  .course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .course-info {
+    padding: 20px;
+  }
+  .course-level {
+    background-color: #2196F3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .course-title {
+    margin: 0 0 10px 0;
+    font-size: 1.4em;
+    color: #4CAF50;
+  }
+  .course-description {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  .course-date {
+    font-size: 0.9em;
+    color: #999;
+  }
+  .course-type {
+    font-size: 0.9em;
+    color: #FFD700;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .authors-scroll {
+    background-color: #2196F3;
+    color: white;
+    padding: 15px 0;
+    margin-top: 40px;
+    overflow: hidden;
+  }
+  .authors-container {
+    display: flex;
+    animation: scroll 60s linear infinite;
+  }
+  .author {
+    white-space: nowrap;
+    padding: 0 20px;
+    font-size: 1.2em;
+  }
+  @keyframes scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-container">
+      <form class="search-form" id="searchForm">
+        <input type="text" id="searchInput" placeholder="Rechercher un cours...">
+        <select id="levelSelect">
+          <option value="">Tous les niveaux</option>
+          <option value="6ème">6ème</option>
+          <option value="5ème">5ème</option>
+          <option value="4ème">4ème</option>
+          <option value="3ème">3ème</option>
+          <option value="2nde">2nde</option>
+          <option value="1ère">1ère</option>
+          <option value="Terminale">Terminale</option>
+        </select>
+        <select id="contentTypeSelect">
+          <option value="">Tous les types de contenu</option>
+          <option value="cours">Cours</option>
+          <option value="exercice">Exercices</option>
+          <option value="devoir">Devoirs</option>
+          <option value="td">TD</option>
+          <option value="examen">Examens</option>
+        </select>
+        <input type="date" id="dateInput">
+        <button type="submit">Rechercher</button>
+      </form>
+    </div>
+
+    <div class="results" id="resultsContainer">
+      <!-- Les résultats de la recherche seront insérés ici dynamiquement -->
+    </div>
+  </div>
+
+  <div class="authors-scroll">
+    <div class="authors-container">
+      <span class="author">Isaac Newton</span>
+      <span class="author">Albert Einstein</span>
+      <span class="author">Marie Curie</span>
+      <span class="author">Niels Bohr</span>
+      <span class="author">Galileo Galilei</span>
+      <span class="author">Stephen Hawking</span>
+      <span class="author">Richard Feynman</span>
+      <span class="author">Erwin Schrödinger</span>
+      <span class="author">Max Planck</span>
+      <span class="author">Werner Heisenberg</span>
+    </div>
+  </div>
+
+  <script>
+    async function fetchCourses() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const selectedLevel = document.getElementById('levelSelect').value;
+      const selectedType = document.getElementById('contentTypeSelect').value;
+      const selectedDate = document.getElementById('dateInput').value;
+
+      // Construire les paramètres de la requête
+      const params = new URLSearchParams();
+      if (searchTerm) params.append('search', searchTerm);
+      if (selectedLevel) params.append('level', selectedLevel);
+      if (selectedType) params.append('type', selectedType);
+      if (selectedDate) params.append('date', selectedDate);
+
+      try {
+        const response = await fetch(`https://api.elearning-platform.com/courses?${params.toString()}`);
+        const courses = await response.json();
+        displayCourses(courses);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des cours:', error);
+      }
+    }
+
+    function displayCourses(courses) {
+      const resultsContainer = document.getElementById('resultsContainer');
+      resultsContainer.innerHTML = courses.map(createCourseCard).join('');
+    }
+
+    function createCourseCard(course) {
+      return `
+        <div class="course-card">
+          <img src="${course.image}" alt="${course.title}" class="course-image" width="300" height="200">
+          <div class="course-info">
+            <span class="course-level">${course.level}</span>
+            <h3 class="course-title">${course.title}</h3>
+            <p class="course-description">${course.description}</p>
+            <p class="course-date">Date: ${course.date}</p>
+            <p class="course-type">${course.type}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      fetchCourses();
+    });
+
+    // Initial display of all courses
+    document.addEventListener('DOMContentLoaded', fetchCourses);
+  </script>
+</body>
+</html>

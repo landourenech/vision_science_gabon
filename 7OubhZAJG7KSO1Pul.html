@@ -1,0 +1,235 @@
+<html><head><base href="https://websim.tilde.cafe/fr/profil/#iconnexion%20fait%20la%20partie%20profile">
+<meta charset="utf-8">
+<title>EduSim - Connexion et Profil</title>
+<style>
+  :root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5a623;
+    --background-color: #f0f5f9;
+    --text-color: #333;
+  }
+
+  body, html {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  h1, h2 {
+    margin-bottom: 20px;
+  }
+
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .tab.active {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #3a7bd5;
+  }
+
+  .profile-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+  }
+
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
+  #success-message {
+    color: green;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>EduSim - Connexion et Profil</h1>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Connexion</button>
+      <button class="tab" data-tab="profile">Profil</button>
+    </div>
+
+    <div id="login" class="tab-content active">
+      <h2>Connexion</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Adresse e-mail :</label>
+          <input type="email" id="login-email" name="login-email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Mot de passe :</label>
+          <input type="password" id="login-password" name="login-password" required>
+        </div>
+        <button type="submit">Se connecter</button>
+      </form>
+    </div>
+
+    <div id="profile" class="tab-content">
+      <h2>Profil de l'utilisateur</h2>
+      <div class="profile-info">
+        <div class="profile-avatar">
+          <img id="profile-avatar-img" src="https://websim.tilde.cafe/fr/profil/default-avatar.png" alt="Avatar de l'utilisateur">
+        </div>
+        <h3 id="profile-name">Nom d'utilisateur</h3>
+        <p id="profile-email">email@example.com</p>
+        <p id="profile-level">Niveau : --</p>
+        <p id="profile-bio">Biographie : --</p>
+        <p id="profile-interests">Centres d'intérêt : --</p>
+        <button id="edit-profile-btn">Modifier le profil</button>
+      </div>
+    </div>
+
+    <div id="error-message"></div>
+    <div id="success-message"></div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const loginForm = document.getElementById('login-form');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+
+    // Gestion des onglets
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Simulation de connexion
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      if (email && password) {
+        // Simulation d'une connexion réussie
+        successMessage.textContent = 'Connexion réussie !';
+        errorMessage.textContent = '';
+
+        // Simuler le chargement des données du profil
+        setTimeout(() => {
+          document.getElementById('profile-name').textContent = 'Jean Dupont';
+          document.getElementById('profile-email').textContent = email;
+          document.getElementById('profile-level').textContent = 'Niveau : Terminale';
+          document.getElementById('profile-bio').textContent = 'Biographie : Passionné de sciences et de mathématiques.';
+          document.getElementById('profile-interests').textContent = 'Centres d\'intérêt : Physique, Chimie, Informatique';
+          
+          // Changer d'onglet pour afficher le profil
+          tabs[1].click();
+        }, 1000);
+      } else {
+        errorMessage.textContent = 'Veuillez remplir tous les champs.';
+        successMessage.textContent = '';
+      }
+    });
+
+    // Simulation de modification du profil
+    editProfileBtn.addEventListener('click', function() {
+      alert('Fonctionnalité de modification du profil en cours de développement.');
+    });
+
+  </script>
+</body></html>

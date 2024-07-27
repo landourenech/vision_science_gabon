@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="https://websim.tilde.cafe/fr/profil%20fait%20la%20partie%20profile">
+<meta charset="utf-8">
+<title>EduSim - Profil Utilisateur</title>
+<style>
+  :root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5a623;
+    --background-color: #f0f5f9;
+    --text-color: #333;
+    --border-color: #ddd;
+  }
+
+  body, html {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  h1, h2, h3 {
+    margin-bottom: 20px;
+  }
+
+  .profile-container {
+    display: flex;
+    gap: 20px;
+  }
+
+  .profile-sidebar {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-main {
+    flex: 2;
+    background-color: white;
+    padding    : 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+  }
+
+  .avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .profile-details {
+    text-align: center;
+  }
+
+  .profile-details h3 {
+    margin: 10px 0;
+  }
+
+  .profile-details p {
+    margin: 5px 0;
+    color: var(--text-color);
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  button:hover {
+    background-color: #3a7bd5;
+  }
+
+  .progress-section,
+  .recent-activities {
+    margin-top: 30px;
+  }
+
+  .progress-section ul,
+  .recent-activities ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .progress-section ul li,
+  .recent-activities ul li {
+    background-color: white;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+
+  .progress-section ul li p,
+  .recent-activities ul li p {
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+ 
+  <div class="container">
+    <div class="profile-container">
+      <div class="profile-sidebar">
+        <div class="avatar-preview">
+          <img id="profile-avatar" src="https://websim.tilde.cafe/fr/profil/default-avatar.png" alt="Avatar">
+        </div>
+        <div class="profile-details">
+          <h3 id="profile-username">Nom d'utilisateur</h3>
+          <p id="profile-email">email@example.com</p>
+          <p id="profile-level">Niveau scolaire : <span>Non défini</span></p>
+          <p id="profile-bio">Biographie : <span>Non définie</span></p>
+          <p id="profile-interests">Centres d'intérêt : <span>Non définis</span></p>
+        </div>
+      </div>
+      <div class="profile-main">
+        <h2>Editer le profil</h2>
+        <form id="edit-profile-form">
+          <div class="form-group">
+            <label for="edit-username">Nom d'utilisateur :</label>
+            <input type="text" id="edit-username" name="username">
+          </div>
+
+          <div class="form-group">
+            <label for="edit-email">Adresse e-mail :</label>
+            <input type="email" id="edit-email" name="email">
+          </div>
+
+          <div class="form-group">
+            <label for="edit-level">Niveau scolaire :</label>
+            <select id="edit-level" name="level">
+              <option value="">Sélectionnez votre niveau</option>
+              <option value="6eme">6ème</option>
+              <option value="5eme">5ème</option>
+              <option value="4eme">4ème</option>
+              <option value="3eme">3ème</option>
+              <option value="2nde">2nde</option>
+              <option value="1ere">1ère</option>
+              <option value="terminale">Terminale</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-bio">Biographie :</label>
+            <textarea id="edit-bio" name="bio" rows="4"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-interests">Centres d'intérêt :</label>
+            <input type="text" id="edit-interests" name="interests" placeholder="Séparés par des virgules">
+          </div>
+
+          <button type="submit">Enregistrer les modifications</button>
+        </form>
+
+        <div class="progress-section">
+          <h2>Progression</h2>
+          <ul id="progress-list">
+            <!-- Les éléments de progression seront insérés ici par JavaScript -->
+          </ul>
+        </div>
+
+        <div class="recent-activities">
+          <h2>Activités récentes</h2>
+          <ul id="recent-activities-list">
+            <!-- Les activités récentes seront insérées ici par JavaScript -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Exemple de données utilisateur
+    const user = {
+      avatar: "https://websim.tilde.cafe/fr/profil/default-avatar.png",
+      username: "John Doe",
+      email: "john.doe@example.com",
+      level: "Terminale",
+      bio: "Étudiant passionné par les sciences et la technologie.",
+      interests: "Mathématiques, Physique, Programmation",
+      progress: [
+        "Mathématiques : 80% complet",
+        "Physique : 70% complet",
+        "Chimie : 60% complet"
+      ],
+      activities: [
+        "A terminé le chapitre 3 de Mathématiques.",
+        "A soumis un devoir en Physique.",
+        "A participé à un quiz en Chimie."
+      ]
+    };
+
+    // Fonction pour afficher les informations du profil
+    function displayProfile() {
+      document.getElementById("profile-avatar").src = user.avatar;
+      document.getElementById("profile-username").textContent = user.username;
+      document.getElementById("profile-email").textContent = user.email;
+      document.getElementById("profile-level").querySelector("span").textContent = user.level;
+      document.getElementById("profile-bio").querySelector("span").textContent = user.bio;
+      document.getElementById("profile-interests").querySelector("span").textContent = user.interests;
+
+      const progressList = document.getElementById("progress-list");
+      progressList.innerHTML = "";
+      user.progress.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        progressList.appendChild(li);
+      });
+
+      const activitiesList = document.getElementById("recent-activities-list");
+      activitiesList.innerHTML = "";
+      user.activities.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        activitiesList.appendChild(li);
+      });
+    }
+
+    // Afficher le profil au chargement de la page
+    displayProfile();
+
+    // Gestion du formulaire d'édition du profil
+    const editProfileForm = document.getElementById("edit-profile-form");
+    editProfileForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Mise à jour des informations utilisateur
+      user.username = document.getElementById("edit-username").value || user.username;
+      user.email = document.getElementById("edit-email").value || user.email;
+      user.level = document.getElementById("edit-level").value || user.level;
+      user.bio = document.getElementById("edit-bio").value || user.bio;
+      user.interests = document.getElementById("edit-interests").value || user.interests;
+
+      // Afficher les nouvelles informations du profil
+      displayProfile();
+
+      // Réinitialiser le formulaire
+      editProfileForm.reset();
+
+      // Message de succès
+      alert("Profil mis à jour avec succès !");
+    });
+  </script>
+</body>
+</html>
+
